@@ -17,7 +17,7 @@
               "MEDIUM | TCAT-AS-001550 | PATCH | Tomcat server must be patched for security vulnerabilities. | Alert Tomcat version"
         debug:
             msg:
-                - "Alert!! Below is the currnetly installed version of Tomcat."
+                - "Alert!! Below is the currently installed version of Tomcat."
                 - "Please review to confirm this is the most currnet available"
                 - "{{ tcat_001470_tomcat_version.stdout }}"
 
@@ -104,7 +104,7 @@
               "MEDIUM | TCAT-AS-000160 | AUDIT | AccessLogValve must be configured for each application context. | Message out current config"
         debug:
             msg:
-                - "Alert! Below are the current AccessLogValve confgurations settings"
+                - "Alert! Below are the current AccessLogValve configurations settings"
                 - "{{ tcat_000050_accesslogvalve_exist.stdout_lines }}"
         when:
             - tcat_000050_accesslogvalve_exist.stdout != ""
