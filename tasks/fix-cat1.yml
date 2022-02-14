@@ -89,7 +89,7 @@
         "HIGH | TCAT-AS-001500 | PATCH | Secured connectors must use FIPS 140-2-validated cipher algorithms."
   xml:
     path: "{{ catalina_home_dir }}/conf/server.xml"
-    xpath: //Listener[@className='org.apache.catalina.core.AprLifecycleListener']
+    xpath: /Listener[@className='org.apache.catalina.core.AprLifecycleListener']
     attribute: FIPSMode
     value: "on"
   notify: restart tomcat

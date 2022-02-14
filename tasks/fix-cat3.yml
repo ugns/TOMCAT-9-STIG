@@ -2,7 +2,7 @@
 - name: "LOW | TCAT-AS-000010 | PATCH | The number of allowed simultaneous sessions to the manager application must be limited."
   xml:
       path: "{{ catalina_home_dir }}/webapps/manager/META-INF/context.xml"
-      xpath: //Manager
+      xpath: /Manager
       attribute: maxActiveSessions
       value: "{{ tcat_max_active_sessions }}"
   notify: restart tomcat
@@ -22,7 +22,7 @@
             namespaces:
                 x: http://xmlns.jcp.org/xml/ns/javaee
                 y: http://www.w3.org/2001/XMLSchema-instance
-            xpath: //x:filter[x:filter-name="httpHeaderSecurity"]
+            xpath: /x:filter[x:filter-name="httpHeaderSecurity"]
             count: yes
         register: tcat_000030_httpheadsecurity_enabled
 
@@ -50,7 +50,7 @@
             namespaces:
                 x: http://xmlns.jcp.org/xml/ns/javaee
                 y: http://www.w3.org/2001/XMLSchema-instance
-            xpath: //x:filter[x:filter-name="httpHeaderSecurity"]/x:init-param[x:param-name="hstsEnabled"]
+            xpath: /x:filter[x:filter-name="httpHeaderSecurity"]/x:init-param[x:param-name="hstsEnabled"]
             count: yes
         register: tcat_000030_hstsEnabled_enabled
         when: tcat_000030_httpheadsecurity_enabled.count > 0
@@ -69,7 +69,7 @@
             namespaces:
                 x: http://xmlns.jcp.org/xml/ns/javaee
                 y: http://www.w3.org/2001/XMLSchema-instance
-            xpath: //x:filter[x:filter-name="httpHeaderSecurity"]
+            xpath: /x:filter[x:filter-name="httpHeaderSecurity"]
             pretty_print: yes
             add_children:
             - init-param:
@@ -107,7 +107,7 @@
               "LOW | TCAT-AS-001080 | PATCH | Application user name must be logged. | Set AccessLogValve to hosts"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Host[@name='{{ item[0].Host.name }}']/Valve
+            xpath: /Host[@name='{{ item[0].Host.name }}']/Valve
             attribute: "{{ item[1].attribute }}"
             value: "{{ item[1].value }}"
             pretty_print: yes
@@ -136,7 +136,7 @@
       - name: "LOW | TCAT-AS-000480 | PATCH | Diagnostic tracing must be disabled. | Remove allowTrace from server.xml"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Connector
+            xpath: /Connector
             attribute: allowTrace
             value: "false"
             pretty_print: yes
@@ -149,7 +149,7 @@
                 x: http://xmlns.jcp.org/xml/ns/javaee
                 y: http://www.w3.org/2001/XMLSchema-instance
                 z: http://xmlns.jcp.org/xml/ns/javaee
-            xpath: //x:web-resource-collection/x:http-method[text()="TRACE"]
+            xpath: /x:web-resource-collection/x:http-method[text()="TRACE"]
             pretty_print: yes
             state: absent
         with_items:
@@ -195,7 +195,7 @@
 - name: "LOW | TCAT-AS-000550 | PATCH | The xpoweredBy attribute must be disabled."
   xml:
       path: "{{ catalina_home_dir }}/conf/server.xml"
-      xpath: //Connector
+      xpath: /Connector
       attribute: xpoweredBy
       value: "false"
       pretty_print: yes
@@ -269,7 +269,7 @@
           x: http://xmlns.jcp.org/xml/ns/javaee
           y: http://www.w3.org/2001/XMLSchema-instance
           z: http://xmlns.jcp.org/xml/ns/javaee
-      xpath: //x:session-config
+      xpath: /x:session-config
       pretty_print: yes
       set_children:
           - session-timeout: "10"
@@ -325,7 +325,7 @@
 - name: "LOW | TCAT-AS-000840 | PATCH | Secured connectors must use FIPS 140-2-validated cipher algorithms."
   xml:
       path: "{{ catalina_home_dir }}/conf/server.xml"
-      xpath: //Listener[@className='org.apache.catalina.core.AprLifecycleListener']
+      xpath: /Listener[@className='org.apache.catalina.core.AprLifecycleListener']
       attribute: FIPSMode
       value: "on"
   notify: restart tomcat
@@ -393,7 +393,7 @@
 - name: "LOW | TCAT-AS-001040 | PATCH | LockOutRealms lockOutTime attribute must be set to 600 seconds (10 minutes) for admin users."
   xml:
       path: "{{ catalina_home_dir }}/conf/server.xml"
-      xpath: //Realm[@className='org.apache.catalina.realm.LockOutRealm']
+      xpath: /Realm[@className='org.apache.catalina.realm.LockOutRealm']
       attribute: lockOutTime
       value: "600"
   when:
@@ -499,7 +499,7 @@
       - name: "LOW | TCAT-AS-001720 | AUDIT | Connectors must be approved by the ISSO. | Gather all connectors"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Connector
+            xpath: /Connector
             content: attribute
         register: tcat_001720_connectors
 
@@ -519,7 +519,7 @@
 - name: "LOW | TCAT-AS-001730 | PATCH | Connector address attribute must be set."
   xml:
       path: "{{ catalina_home_dir }}/conf/server.xml"
-      xpath: //Connector
+      xpath: /Connector
       attribute: address
       value: "{{ tcat_listen_address }}"
   notify: restart tomcat

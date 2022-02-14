@@ -130,7 +130,7 @@
             namespaces:
                 x: http://xmlns.jcp.org/xml/ns/javaee
                 y: http://www.w3.org/2001/XMLSchema-instance
-            xpath: //x:session-config/x:cookie-config/x:{{ item }}
+            xpath: /x:session-config/x:cookie-config/x:{{ item }}
             count: yes
         with_items:
             - secure
@@ -145,7 +145,7 @@
             namespaces:
                 x: http://xmlns.jcp.org/xml/ns/javaee
                 y: http://www.w3.org/2001/XMLSchema-instance
-            xpath: //x:session-config
+            xpath: /x:session-config
             pretty_print: yes
             add_children:
             - cookie-config:
@@ -186,7 +186,7 @@
             namespaces:
                   x: http://xmlns.jcp.org/xml/ns/javaee
                   y: http://www.w3.org/2001/XMLSchema-instance
-            xpath: //x:servlet[x:servlet-name="default"]/x:init-param[x:param-name="readonly"]
+            xpath: /x:servlet[x:servlet-name="default"]/x:init-param[x:param-name="readonly"]
             count: yes
         register: tcat_000090_readyonly_property
 
@@ -196,7 +196,7 @@
             namespaces:
                   x: http://xmlns.jcp.org/xml/ns/javaee
                   y: http://www.w3.org/2001/XMLSchema-instance
-            xpath: //x:servlet[x:servlet-name="default"]
+            xpath: /x:servlet[x:servlet-name="default"]
             pretty_print: yes
             add_children:
             - init-param:
@@ -224,7 +224,7 @@
 - name: "MEDIUM | TCAT-AS-000100 | PATCH | Connectors must be secured."
   xml:
       path: "{{ catalina_home_dir }}/conf/server.xml"
-      xpath: //Connector
+      xpath: /Connector
       pretty_print: yes
       attribute: "{{ item.attribute }}"
       value: "{{ item.value }}"
@@ -267,7 +267,7 @@
       - name: "MEDIUM | TCAT-AS-000170 | PATCH | Tomcat servers behind a proxy or load balancer must log client IP. | Create RemoteIpValve node"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Host[@name='localhost']/Valve[@className='org.apache.catalina.valves.RemoteIpValve']
+            xpath: /Host[@name='localhost']/Valve[@className='org.apache.catalina.valves.RemoteIpValve']
             pretty_print: yes
         when: tcat_routable_ip_proxy
         notify: restart tomcat
@@ -275,7 +275,7 @@
       - name: "MEDIUM | TCAT-AS-000170 | PATCH | Tomcat servers behind a proxy or load balancer must log client IP. | Set internalProxies"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Host[@name='localhost']/Valve[@className='org.apache.catalina.valves.RemoteIpValve']
+            xpath: /Host[@name='localhost']/Valve[@className='org.apache.catalina.valves.RemoteIpValve']
             attribute: internalProxies
             value: "{{ tcat_remoteipvalve_proxy_addresses }}"
             pretty_print: yes
@@ -285,7 +285,7 @@
       - name: "MEDIUM | TCAT-AS-000170 | PATCH | Tomcat servers behind a proxy or load balancer must log client IP. | Set AccessLogValve"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Valve[@className='org.apache.catalina.valves.AccessLogValve']
+            xpath: /Valve[@className='org.apache.catalina.valves.AccessLogValve']
             attribute: requestAttributesEnabled
             value: "true"
             pretty_print: yes
@@ -347,7 +347,7 @@
               "MEDIUM | TCAT-AS-001610 | PATCH | AccessLogValve must be configured per each virtual host. | Set AccessLogValve to hosts"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Host[@name='{{ item[0].Host.name }}']/Valve
+            xpath: /Host[@name='{{ item[0].Host.name }}']/Valve
             attribute: "{{ item[1].attribute }}"
             value: "{{ item[1].value }}"
             pretty_print: yes
@@ -394,7 +394,7 @@
 
   xml:
       path: "{{ catalina_home_dir }}/conf/server.xml"
-      xpath: //Valve[@className='org.apache.catalina.valves.AccessLogValve']
+      xpath: /Valve[@className='org.apache.catalina.valves.AccessLogValve']
       attribute: pattern
       value: "{{ tcat_access_log_valve.pattern }}"
   when:
@@ -571,7 +571,7 @@
       - name: "MEDIUM | TCAT-AS-000470 | PATCH | Stack tracing must be disabled. | Set allowTrace to false"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Connector
+            xpath: /Connector
             attribute: allowTrace
             value: "false"
             pretty_print: yes
@@ -584,7 +584,7 @@
                 x: http://xmlns.jcp.org/xml/ns/javaee
                 y: http://www.w3.org/2001/XMLSchema-instance
                 z: http://xmlns.jcp.org/xml/ns/javaee
-            xpath: //x:web-resource-collection/x:http-method[text()="TRACE"]
+            xpath: /x:web-resource-collection/x:http-method[text()="TRACE"]
             pretty_print: yes
             state: absent
         notify: restart tomcat
@@ -677,7 +677,7 @@
       - name: "MEDIUM | TCAT-AS-000540 | PATCH | Autodeploy must be disabled. | Set xpoweredBy"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Host[@name='{{ item.Host.name }}']
+            xpath: /Host[@name='{{ item.Host.name }}']
             attribute: xpoweredBy
             value: "false"
             pretty_print: yes
@@ -687,7 +687,7 @@
       - name: "MEDIUM | TCAT-AS-000540 | PATCH | Autodeploy must be disabled. | Set autoDeploy"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Host[@name='{{ item.Host.name }}']
+            xpath: /Host[@name='{{ item.Host.name }}']
             attribute: autoDeploy
             value: "false"
             pretty_print: yes
@@ -932,7 +932,7 @@
 - name: "MEDIUM | TCAT-AS-000800 | PATCH | Tomcat servers must mutually authenticate proxy or load balancer connections. | Set clientAuth if address used"
   xml:
       path: "{{ catalina_home_dir }}/conf/server.xml"
-      xpath: //Connector[@address='{{ item }}']
+      xpath: /Connector[@address='{{ item }}']
       attribute: clientAuth
       value: "true"
       pretty_print: yes
@@ -1393,7 +1393,7 @@
               "MEDIUM | TCAT-AS-001580 | PATCH | AccessLogValve must be configured per each virtual host. | Set AccessLogValve to hosts"
         xml:
             path: "{{ catalina_home_dir }}/conf/server.xml"
-            xpath: //Host[@name='{{ item[0].Host.name }}']/Valve
+            xpath: /Host[@name='{{ item[0].Host.name }}']/Valve
             attribute: "{{ item[1].attribute }}"
             value: "{{ item[1].value }}"
             pretty_print: yes
@@ -1453,7 +1453,7 @@
 - name: "MEDIUM | TCAT-AS-001596 | PATCH | AccessLogValve must be configured for Catalina engine."
   xml:
       path: "{{ catalina_home_dir }}/conf/server.xml"
-      xpath: //Engine/Valve
+      xpath: /Engine/Valve
       attribute: "{{ item.attribute }}"
       value: "{{ item.value }}"
       pretty_print: yes
