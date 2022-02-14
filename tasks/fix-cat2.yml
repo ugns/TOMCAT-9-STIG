@@ -1222,7 +1222,7 @@
       value: "{{ item.value }}"
       pretty_print: yes
   with_items:
-      - { attribute: calssName, value: "org.apache.catalina.valves.AccessLogValve" }
+      - { attribute: className, value: "org.apache.catalina.valves.AccessLogValve" }
       - { attribute: directory, value: "logs" }
       - { attribute: prefix, value: "{{ tcat_access_log_valve.prefix }}" }
       - { attribute: suffix, value: "{{ tcat_access_log_valve.suffix }}" }
