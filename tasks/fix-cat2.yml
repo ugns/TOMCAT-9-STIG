@@ -18,7 +18,7 @@
         debug:
             msg:
                 - "Alert!! Below is the currently installed version of Tomcat."
-                - "Please review to confirm this is the most currnet available"
+                - "Please review to confirm this is the most current available"
                 - "{{ tcat_001470_tomcat_version.stdout }}"
 
   when:
