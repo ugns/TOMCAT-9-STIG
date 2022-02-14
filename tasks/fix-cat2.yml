@@ -6,7 +6,7 @@
       - name: |
               "MEDIUM | TCAT-AS-001470 | PATCH | Tomcat server must be patched for security vulnerabilities. | Find Tomcat version"
               "MEDIUM | TCAT-AS-001550 | PATCH | Tomcat server must be patched for security vulnerabilities. | Find Tomcat version"
-        shell: cat {{ catalina_home_dir }}/RELEASE-NOTES | grep "Aapche Tomcat Version" | sed 's/^[ \t]*//;s/[ \t]*$//'
+        shell: cat {{ catalina_home_dir }}/RELEASE-NOTES | grep "Apache Tomcat Version" | sed 's/^[ \t]*//;s/[ \t]*$//'
         # shell: "grep "Apache Tomcat Version" {{ catalina_home_dir }}/RELEASE-NOTES | sed 's/^[ \t]*//;s/[ \t]*$//"
         changed_when: false
         failed_when: false
