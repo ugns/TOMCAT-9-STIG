@@ -50,7 +50,7 @@
       - name: |
               "MEDIUM | TCAT-AS-000020 | AUDIT | Secured connectors must be configured to use strong encryption ciphers. | Find redirect ports"
               "MEDIUM | TCAT-AS-000040 | AUDIT | TLS 1.2 must be used on secured HTTP connectors. | Find redirect ports"
-        shell: cat /opt/tomcat/conf/server.xml | grep -i redirectPort | sed 's/^[ \t]*//;s/[ \t]*$//'
+        shell: cat {{ catalina_home_dir }}/conf/server.xml | grep -i redirectPort | sed 's/^[ \t]*//;s/[ \t]*$//'
         changed_when: false
         failed_when: false
         register: tcat_000020_redirect_ports
@@ -78,7 +78,7 @@
       - name: |
               "MEDIUM | TCAT-AS-000050 | AUDIT | AccessLogValve must be configured for each application context. | Determine if AccessLogValve already configured"
               "MEDIUM | TCAT-AS-000160 | AUDIT | AccessLogValve must be configured for each application context. | Determine if AccessLogValve already configured"
-        shell: cat /opt/tomcat/conf/server.xml | grep -i -A2 '<Valve className="org.apache.catalina.valves.AccessLogValve"' | sed 's/^[ \t]*//;s/[ \t]*$//'
+        shell: cat {{ catalina_home_dir }}/conf/server.xml | grep -i -A2 '<Valve className="org.apache.catalina.valves.AccessLogValve"' | sed 's/^[ \t]*//;s/[ \t]*$//'
         changed_when: false
         failed_when: false
         register: tcat_000050_accesslogvalve_exist
@@ -887,7 +887,7 @@
 - name: "MEDIUM | TCAT-AS-000790 | PATCH | Access to Tomcat manager application must be restricted."
   block:
       - name: "MEDIUM | TCAT-AS-000790 | AUDIT | Access to Tomcat manager application must be restricted. | Check if RemoteAddr/CIDRValve enabled"
-        shell: 'cat /opt/tomcat/webapps/manager/META-INF/context.xml | grep -i -A1 "RemoteAddrValue|RemoteCIDRValve"'
+        shell: 'cat {{ catalina_home_dir }}/webapps/manager/META-INF/context.xml | grep -i -A1 "RemoteAddrValue|RemoteCIDRValve"'
         changed_when: false
         failed_when: false
         register: tcat_000790_remote_addr_civ_valve
