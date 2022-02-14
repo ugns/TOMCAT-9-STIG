@@ -98,6 +98,8 @@
             - { attribute: suffix, value: "{{ tcat_access_log_valve.suffix }}" }
             - { attribute: pattern, value: "{{ tcat_access_log_valve.pattern }}" }
         notify: restart tomcat
+        when:
+            - tcat_000050_accesslogvalve_exist.stdout == ""
 
       - name: |
               "MEDIUM | TCAT-AS-000050 | AUDIT | AccessLogValve must be configured for each application context. | Message out current config"
