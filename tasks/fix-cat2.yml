@@ -826,7 +826,7 @@
 - name: "MEDIUM | TCAT-AS-000710 | PATCH | Keystore file must be protected."
   block:
       - name: "MEDIUM | TCAT-AS-000710 | AUDIT | Keystore file must be protected. | Get keystore files"
-        shell: cat /opt/tomcat/conf/server.xml | grep -i keystorefile | cut -f2 -d= | tr -d '"'
+        shell: cat {{ catalina_home_dir }}/conf/server.xml | grep -i keystorefile | cut -f2 -d= | tr -d '"'
         changed_when: false
         failed_when: false
         register: tcat_000710_keystore_files
